@@ -23,7 +23,7 @@ public class SearchService {
         List<String> arrivalCities = findFlightsFrom(departureCity, flightsRepository);
         List<String> departureCities = findFlightsTo(arrivalCity, flightsRepository);
         return arrivalCities.stream()
-                .filter(city -> departureCities.contains(city))
+                .filter(departureCities::contains)
                 .collect(Collectors.toList());
     }
 }
