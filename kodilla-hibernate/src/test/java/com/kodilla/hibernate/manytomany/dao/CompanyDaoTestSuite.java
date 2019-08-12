@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CompanyDaoTestSuite {
     @Autowired
     CompanyDao companyDao;
+    @Autowired
+    EmployeeDao employeeDao;
 
     @Test
     public void testSaveManyToMany(){
@@ -58,6 +62,49 @@ public class CompanyDaoTestSuite {
             companyDao.deleteById(greyMatterId);
         } catch (Exception e) {
             //do nothing
+        }
+    }
+
+    @Test
+    public void testRetrieveEmployeesWithSurname(){
+        //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        Employee stephanieClarckson = new Employee("Stephanie", "Clarckson");
+        Employee lindaKovalsky = new Employee("Linda", "Kovalsky");
+        employeeDao.save(johnSmith);
+        employeeDao.save(stephanieClarckson);
+        employeeDao.save(lindaKovalsky);
+
+        //When
+        List<Employee> employeesWithSurnameSmith = employeeDao.retrieveEmployeesWithSurname("Smith");
+
+        //Then
+        try {
+            Assert.assertEquals(1, employeesWithSurnameSmith.size());
+        } finally {
+            //CleanUp
+            employeeDao.deleteAll();
+        }
+    }
+
+    @Test
+    public void retrieveCompaniesStartingWith() {
+        //Given
+        Company softwareMachine = new Company("Software Machine");
+        Company dataMaesters = new Company("Data Maesters");
+        Company greyMatter = new Company("Grey Matter");
+        companyDao.save(softwareMachine);
+        companyDao.save(dataMaesters);
+        companyDao.save(greyMatter);
+
+        //When
+        List<Company> companiesStartingWithSof = companyDao.retrieveCompaniesStartingWith("sof");
+
+        //Then
+        try {
+            Assert.assertEquals(1, companiesStartingWithSof.size());
+        } finally {
+            companyDao.deleteAll();
         }
     }
 }
