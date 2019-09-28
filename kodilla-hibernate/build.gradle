@@ -18,5 +18,5 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    compile group:'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    implementation 'javax.validation:validation-api'
 }

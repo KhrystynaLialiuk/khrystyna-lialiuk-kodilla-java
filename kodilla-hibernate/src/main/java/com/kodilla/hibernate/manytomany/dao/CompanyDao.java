@@ -13,4 +13,7 @@ import java.util.List;
 public interface CompanyDao extends CrudRepository<Company, Integer> {
 @Query(nativeQuery = true)
     List<Company> retrieveCompaniesStartingWith(@Param("SUBSTRING") String substring);
+
+@Query
+    List<Company> searchForCompany(@Param("FRAGMENT") String fragment);
 }
